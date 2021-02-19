@@ -7,7 +7,7 @@ pipeline {
       }
       steps {
         echo "Running build on node: ${env.NODE_NAME} from controller: ${env.JENKINS_URL}"
-        echo "Node host: $(hostname)"
+        sh 'echo "Node host: $(hostname)"'
         sh 'cd application; mvn -B compile'
       }
     }
@@ -18,7 +18,7 @@ pipeline {
       }
       steps {
         echo "Running test on node: ${env.NODE_NAME} from controller: ${env.JENKINS_URL}"
-        echo "Node host: $(hostname)"
+        sh 'echo "Node host: $(hostname)"'
         sh 'cd application; mvn -B test'
       }
     }
