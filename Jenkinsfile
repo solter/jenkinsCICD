@@ -3,13 +3,13 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'cd application; mvn compile'
+        sh 'cd application; mvn -B compile'
       }
     }
 
     stage('Test') {
       steps {
-        sh 'cd application; mvn test'
+        sh 'cd application; mvn -B test'
       }
     }
 
