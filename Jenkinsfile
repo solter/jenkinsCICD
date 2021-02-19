@@ -6,9 +6,9 @@ pipeline {
         label 'build'
       }
       steps {
-        echo 'Running ${env.NODE_NAME} on ${env.JENKINS_URL}'
-        sh 'cd application; mvn -B compile'
+        echo "Running ${env.NODE_NAME} on ${env.JENKINS_URL}"
         sh 'echo "Hostname: $(hostname)"'
+        sh 'cd application; mvn -B compile'
       }
     }
 
@@ -17,7 +17,7 @@ pipeline {
         label 'test'
       }
       steps {
-        echo 'Running ${env.NODE_NAME} on ${env.JENKINS_URL}'
+        echo "Running ${env.NODE_NAME} on ${env.JENKINS_URL}"
         sh 'echo "Hostname: $(hostname)"'
         sh 'cd application; mvn -B test'
       }
