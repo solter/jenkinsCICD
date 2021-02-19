@@ -1,0 +1,24 @@
+---
+- name: agent setup
+  hosts: agents
+
+  tasks:
+    - name: bring up to date
+      become: yes
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: full
+    - name: install Java and Maven
+      become: yes
+      ansible.builtin.apt:
+        update_cache: yes
+        state: present
+        name:
+          - openjdk-11-jdk
+          - maven
+    - name: create Jenkins user
+      become: yes
+      ansible.builtin.user:
+        name: jenkins
+        state: present
+        home: /home/jenkins

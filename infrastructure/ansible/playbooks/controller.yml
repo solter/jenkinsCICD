@@ -1,0 +1,42 @@
+---
+- name: controller setup
+  hosts: controller
+
+  tasks:
+    - name: bring up to date
+      become: yes
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: full
+    - name: download jenkins key
+      become: yes
+      ansible.builtin.apt_key:
+        state: present
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+    - name: add Jenkins stable to apt sources
+      become: yes
+      ansible.builtin.apt_repository:
+        state: present
+        update_cache: yes
+        filename: jenkins
+        repo: deb https://pkg.jenkins.io/debian binary/
+    - name: install Java and Jenkins
+      # Note that the installation of Jenkins will
+      #   - setup Jenkins as daemon launch
+      #   - create a jenkins user to run the service
+      #   - direct output to /var/log/jenkins/jenkins.log
+      #   - set Jenkins to listen to port 8080
+      become: yes
+      ansible.builtin.apt:
+        update_cache: yes
+        state: present
+        name:
+          - openjdk-11-jdk
+          - jenkins
+    - name: generate SSH key (to access agents)
+      become: yes
+      ansible.builtin.user:
+        name: jenkins
+        state: present
+        generate_ssh_key: yes
+
