@@ -24,4 +24,17 @@ pipeline {
     }
 
   }
+
+  stage('Deploy') {
+    agent {
+      label 'deploy'
+    }
+    steps {
+      echo "Running deploy on node: ${env.NODE_NAME} from controller: ${env.JENKINS_URL}"
+      sh 'cd application; mvn -B verify'
+      sh 'cd application; cp target/HelloWorldWithTests*.jar /tmp'
+
+      ansiblePlaybook(inventory: 'infrastructure/ansible/inventory/aws.yml', playbook: 'infrastructure/ansible/playbooks/deploy.yml')
+    }
+  }
 }

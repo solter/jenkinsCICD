@@ -1,0 +1,11 @@
+---
+- name: deploy app
+  hosts: deployments
+
+  tasks:
+    - name: deploy maven app
+      ansible.builtin.fetch:
+        dest: ~/
+        flat: yes
+        src: /tmp/HelloWorldWithTests*.jar
+
